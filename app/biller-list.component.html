@@ -1,0 +1,25 @@
+<div 
+  *ngIf="errorMessage" 
+  class="alert alert-danger" 
+  role="alert">
+  {{errorMessage}}
+</div>
+<div 
+  *ngIf="isLoading" 
+  class="list-group">
+  <div 
+    class="list-group-item">
+    Loading...
+  </div>
+</div>
+<div 
+  *ngIf="!isLoading && selectedBiller == null"
+  class="list-group">
+  <button 
+    *ngFor="let biller of billers"  
+    type="button" 
+    class="list-group-item"
+    (click)="selectBiller(biller)">
+    {{biller.companyName}}
+  </button>
+</div>

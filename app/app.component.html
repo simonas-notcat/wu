@@ -1,0 +1,130 @@
+<div class="container">
+  <h1>{{title}}</h1>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{subTitle}}</h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label 
+              class="sr-only" 
+              for="queryInput">{{queryLabel}}</label>
+            <input 
+              [(ngModel)]="query" 
+              placeholder="{{queryLabel}}" 
+              class="form-control"
+              id="queryInput"
+            />
+          </div>
+
+          <biller-list
+            [query]="query"
+            [selectedBiller]="selectedBiller"
+            (onBillerSelected)="onBillerSelected($event)">
+            </biller-list>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="form-group">
+             <label 
+              class="sr-only" 
+              for="amountInput">{{amountLabel}}</label>
+             <div class="input-group">
+               <input 
+                id="amountInput" 
+                [(ngModel)]="amount" 
+                type="number"
+                class="form-control" 
+                placeholder="{{amountLabel}}"/>
+               <div 
+                class="input-group-addon">{{currencyLabel}}</div>
+             </div>
+           </div>
+        </div>
+
+        <div class="col-sm-3">
+          <button 
+            *ngIf="selectedBiller != null && amount > 0"
+            type="button" 
+            class="btn btn-default btn-block"
+            (click)="getFeeEstimates()">
+            {{ctaLabel}}
+            </button>
+          <button 
+            *ngIf="selectedBiller == null || !amount || amount < 0"
+            type="button" 
+            disabled="disabled" 
+            class="btn btn-default btn-block">
+            {{ctaLabel}}
+            </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div 
+    *ngIf="errorMessage" 
+    class="alert alert-danger" 
+    role="alert">
+    {{errorMessage}}
+  </div>
+
+  <div *ngIf="isLoadingFeeEstimates || feeEstimates">
+    <h2>{{estimatedFeesLabel}}</h2>
+    <div class="row">
+      <div class="col-xs-12"
+        *ngIf="isLoadingFeeEstimates">
+        Loading...
+      </div>
+      <div 
+        class="col-md-6"  
+        *ngFor="let feeEstimate of feeEstimates">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title" [ngSwitch]="feeEstimate.channel.type">
+              <template [ngSwitchCase]="'WEB'">Online</template>
+              <template [ngSwitchCase]="'AGT'">Agent Location</template>
+              <template [ngSwitchCase]="'IVR'">By Phone</template>
+              <template [ngSwitchCase]="'SMARTPHONE'">Mobile App</template>
+              <template ngSwitchDefault>{{feeEstimate.channel.type}}</template>
+            </h3>
+          </div>
+          <div class="panel-body">
+
+            <div class="pull-right" [ngSwitch]="feeEstimate.channel.type">
+              <template [ngSwitchCase]="'WEB'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/bill-pay/payBillsLogin.html" role="button">Send Online</a></template>
+              <template [ngSwitchCase]="'AGT'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/agent-locator.html" role="button">Find Location</a></template>
+              <template [ngSwitchCase]="'IVR'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/pay-bills-by-phone.html" role="button">Call Now</a></template>
+              <template [ngSwitchCase]="'SMARTPHONE'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/mobile-app.html?REF_ID=BVO4-5SRQ-RVBY-QEXC-2DES-3DGY-RG64-7ZVR&REF_ID=761L-2DLN-30RP-WNSY-OIY1-8WZH-TUNF-00YH" role="button">Download</a></template>
+            </div>
+            
+            <h4>
+            {{ feeEstimate.paymentDetails.fees.charges / 100 | currency:feeEstimate.paymentDetails.destination.currencyIsoCode:true:'1.2-2' }}
+              <span class="label label-info">{{feeEstimate.paymentDetails.paymentType}}</span>
+            </h4>
+
+            Aditional information:
+            <small>
+              <ul>
+                <li *ngFor="let info of feeEstimate.codeTextAdditionalInfo">
+                  {{info}}
+                </li>
+              </ul>
+            </small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+  
+
+  
