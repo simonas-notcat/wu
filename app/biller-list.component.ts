@@ -6,6 +6,7 @@ import {
   Output, 
   EventEmitter } from '@angular/core';
 import { WuService, WuBiller } from './wu.service';
+import translations from './translations'
 
 @Component({
   selector: 'biller-list',
@@ -13,6 +14,7 @@ import { WuService, WuBiller } from './wu.service';
   providers: [ WuService ]
 })
 export class BillerList implements OnChanges{
+  t = translations
   @Input() query: string
   @Input() selectedBiller: WuBiller
   @Output() onBillerSelected = new EventEmitter<WuBiller>()

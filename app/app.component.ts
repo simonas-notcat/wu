@@ -1,6 +1,7 @@
-import { Component} from '@angular/core'
+import { Component } from '@angular/core'
 import { BillerList } from './biller-list.component'
 import { WuService, WuBiller } from './wu.service'
+import translations from './translations'
 
 @Component({
   selector: 'my-app',
@@ -9,13 +10,7 @@ import { WuService, WuBiller } from './wu.service'
   providers: [ WuService ]
 })
 export class AppComponent  {
-  title = 'Western Union'
-  subTitle = 'Look Up Your Biller'
-  amountLabel = 'Amount'
-  queryLabel = 'Biller name'
-  currencyLabel = 'USD'
-  ctaLabel = 'Get Fees'
-  estimatedFeesLabel = 'Fees for Paying Bills'
+  t = translations
 
   selectedBiller: WuBiller
   query: string

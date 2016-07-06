@@ -1,8 +1,8 @@
 <div class="container">
-  <h1>{{title}}</h1>
+  <h1>{{t.title}}</h1>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">{{subTitle}}</h3>
+      <h3 class="panel-title">{{t.subTitle}}</h3>
     </div>
     <div class="panel-body">
       <div class="row">
@@ -11,10 +11,10 @@
           <div class="form-group">
             <label 
               class="sr-only" 
-              for="queryInput">{{queryLabel}}</label>
+              for="queryInput">{{t.query}}</label>
             <input 
               [(ngModel)]="query" 
-              placeholder="{{queryLabel}}" 
+              placeholder="{{t.query}}" 
               class="form-control"
               id="queryInput"
             />
@@ -31,16 +31,16 @@
           <div class="form-group">
              <label 
               class="sr-only" 
-              for="amountInput">{{amountLabel}}</label>
+              for="amountInput">{{t.amount}}</label>
              <div class="input-group">
                <input 
                 id="amountInput" 
                 [(ngModel)]="amount" 
                 type="number"
                 class="form-control" 
-                placeholder="{{amountLabel}}"/>
+                placeholder="{{t.amount}}"/>
                <div 
-                class="input-group-addon">{{currencyLabel}}</div>
+                class="input-group-addon">{{t.currency}}</div>
              </div>
            </div>
         </div>
@@ -51,14 +51,14 @@
             type="button" 
             class="btn btn-default btn-block"
             (click)="getFeeEstimates()">
-            {{ctaLabel}}
+            {{t.cta}}
             </button>
           <button 
             *ngIf="selectedBiller == null || !amount || amount < 0"
             type="button" 
             disabled="disabled" 
             class="btn btn-default btn-block">
-            {{ctaLabel}}
+            {{t.cta}}
             </button>
         </div>
 
@@ -74,11 +74,11 @@
   </div>
 
   <div *ngIf="isLoadingFeeEstimates || feeEstimates">
-    <h2>{{estimatedFeesLabel}}</h2>
+    <h2>{{t.estimatedFees}}</h2>
     <div class="row">
       <div class="col-xs-12"
         *ngIf="isLoadingFeeEstimates">
-        Loading...
+        {{t.loading}}
       </div>
       <div 
         class="col-md-6"  
@@ -87,20 +87,20 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title" [ngSwitch]="feeEstimate.channel.type">
-              <template [ngSwitchCase]="'WEB'">Online</template>
-              <template [ngSwitchCase]="'AGT'">Agent Location</template>
-              <template [ngSwitchCase]="'IVR'">By Phone</template>
-              <template [ngSwitchCase]="'SMARTPHONE'">Mobile App</template>
+              <template [ngSwitchCase]="'WEB'">{{t.online}}</template>
+              <template [ngSwitchCase]="'AGT'">{{t.agentLocation}}</template>
+              <template [ngSwitchCase]="'IVR'">{{t.byPhone}}</template>
+              <template [ngSwitchCase]="'SMARTPHONE'">{{t.mobileApp}}</template>
               <template ngSwitchDefault>{{feeEstimate.channel.type}}</template>
             </h3>
           </div>
           <div class="panel-body">
 
             <div class="pull-right" [ngSwitch]="feeEstimate.channel.type">
-              <template [ngSwitchCase]="'WEB'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/bill-pay/payBillsLogin.html" role="button">Send Online</a></template>
-              <template [ngSwitchCase]="'AGT'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/agent-locator.html" role="button">Find Location</a></template>
-              <template [ngSwitchCase]="'IVR'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/pay-bills-by-phone.html" role="button">Call Now</a></template>
-              <template [ngSwitchCase]="'SMARTPHONE'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/mobile-app.html?REF_ID=BVO4-5SRQ-RVBY-QEXC-2DES-3DGY-RG64-7ZVR&REF_ID=761L-2DLN-30RP-WNSY-OIY1-8WZH-TUNF-00YH" role="button">Download</a></template>
+              <template [ngSwitchCase]="'WEB'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/bill-pay/payBillsLogin.html" role="button">{{t.sendOnline}}</a></template>
+              <template [ngSwitchCase]="'AGT'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/agent-locator.html" role="button">{{t.findLocation}}</a></template>
+              <template [ngSwitchCase]="'IVR'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/pay-bills-by-phone.html" role="button">{{t.callNow}}</a></template>
+              <template [ngSwitchCase]="'SMARTPHONE'"><a class="btn btn-primary" href="https://www.westernunion.com/us/en/mobile-app.html?REF_ID=BVO4-5SRQ-RVBY-QEXC-2DES-3DGY-RG64-7ZVR&REF_ID=761L-2DLN-30RP-WNSY-OIY1-8WZH-TUNF-00YH" role="button">{{t.download}}</a></template>
             </div>
             
             <h4>
@@ -108,7 +108,7 @@
               <span class="label label-info">{{feeEstimate.paymentDetails.paymentType}}</span>
             </h4>
 
-            Aditional information:
+            {{t.aditionalInformation}}:
             <small>
               <ul>
                 <li *ngFor="let info of feeEstimate.codeTextAdditionalInfo">
